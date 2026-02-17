@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>업로드</title>
+  <style>
+    html, body { height: 100%; margin: 0; }
+    iframe { width: 100%; height: 100%; border: 0; display:block; }
+  </style>
+</head>
+<body>
+  <iframe id="gasFrame"
+    src="about:blank"
+    allow="clipboard-read; clipboard-write"
+    referrerpolicy="no-referrer-when-downgrade"
+  ></iframe>
+
+  <script>
+    // ✅ Apps Script 웹앱 배포 URL(/exec)로 교체하세요.
+    const GAS_EXEC_URL = "https://script.google.com/macros/s/AKfycbwPnTv95Q-VN4rGVu7Vk3G20GnoCK6dsksZJ2Q0h6AcKb_aXNW1uw_8t4vgIQ1ietKR/exec";
+
+    // 현재 GitHub Pages URL의 쿼리 파라미터를 그대로 Apps Script 웹앱으로 전달합니다.
+    // 예) https://<user>.github.io/<repo>/?code=abc&v=15  →  .../exec?code=abc&v=15
+    const params = new URLSearchParams(window.location.search);
+
+    // GAS_EXEC_URL 자체에 이미 ?a=b 같은 쿼리가 붙어있을 수도 있으니 안전하게 합칩니다.
+    const gasUrl = new URL(GAS_EXEC_URL);
+    params.forEach((value, key) => {
+      gasUrl.searchParams.set(key, value);
+    });
+
+    document.getElementById("gasFrame").src = gasUrl.toString();
+  </script>
+</body>
+</html>
